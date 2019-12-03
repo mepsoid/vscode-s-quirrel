@@ -1,5 +1,16 @@
 # vscode-(s)quirrel
 
+## TODO
+
+- Basic squirrel syntax highlighting
+- Additional quirrel features highlighting
+- Traversing blocks, tables, strings interpolation, function arguments etc
+- Definitions for common global classes, functions and constants
+- Static syntax analyzer
+- Autoidentation
+- Local and cross module go to declaration
+- ...etc
+
 
 ## Links
 
@@ -11,7 +22,7 @@
 - [TextMate language grammar](https://macromates.com/manual/en/language_grammars)
 - [Standard scope naming](https://www.sublimetext.com/docs/3/scope_naming.html)
 -----
-- (https://github.com/GaijinEntertainment/quirrel)
+- [Quirrel language](https://github.com/GaijinEntertainment/quirrel)
 - [Syntax highlighting and few snippets for squirrel](https://github.com/robmerrell/squirrel-tmbundle) base repository
 - [Top VSCode squirrel extension](https://github.com/monkeygroover/vscode-squirrel-lang) inherited from above
 - [Microsoft JS highlighting rules](https://github.com/microsoft/vscode/blob/master/extensions/javascript/syntaxes/JavaScript.tmLanguage.json) another basic rules
