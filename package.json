@@ -1,0 +1,48 @@
+{
+  "name": "vscode-s-quirrel",
+  "displayName": "(S)quirrel",
+  "description": "Squirrel and Quirrel language support",
+  "version": "0.0.1",
+  "publisher": "mepsoid",
+  "icon": "acorn.png",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.16.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "squirrel",
+    "quirrel",
+    "nut"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "squirrel",
+        "aliases": [
+          "squirrel",
+          "Squirrel",
+          "quirrel",
+          "Quirrel"
+        ],
+        "extensions": [
+          "nut"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "squirrel",
+        "scopeName": "source.squirrel",
+        "path": "./syntaxes/squirrel.tmLanguage.json"
+      }
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mepsoid/vscode-s-quirrel.git"
+  }
+}
