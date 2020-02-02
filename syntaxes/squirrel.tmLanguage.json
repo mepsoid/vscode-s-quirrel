@@ -199,7 +199,7 @@
           "name": "invalid.illegal.integer.hexadecimal.squirrel"
         },
         {
-          "match": "(\\')((?:[^'\\\\]|\\\\[\\w]+)?)(\\')",
+          "match": "(\\')((?:[^'\\\\]|\\\\.)*)(\\')",
           "name": "constant.numeric.integer.other.squirrel",
           "captures": {
             "1": { "name": "punctuation.definition.string.begin.squirrel" },
