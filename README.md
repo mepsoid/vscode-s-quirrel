@@ -28,17 +28,18 @@
 
 ## Roadmap
 
-[x] Basic squirrel syntax highlighting
-[ ] Capture inner blocks of interpolated strings
-    ($"{_block_}")
-[ ] Highlight all function identifiers, including function arguments, array values and table fields definitions
-    (._func_(), function _func_(), _func_ = function()|@(), (_func_()), \[_func_()\], { _func_ = function()|@() })
-[ ] Ctrl+click on file path to open
-[ ] Autocompletion for project files path while typing
-[ ] Set of common key-value pairs for table fields autocompletion (key = val1|val2 ...)
-[ ] Highlighting of JSDOC tags in documentation comment blocks /** */
-[ ] Traversing blocks, tables, strings interpolation, function arguments etc
-[ ] Definitions for common global classes, functions and constants
-[ ] Static syntax analyzer
-[ ] Autoidentation
-[ ] Local and cross module go to declaration
+- [x] Basic squirrel syntax highlighting
+- [x] Editor key binding to open selected module file path in new tab
+- [ ] Autocompletion for workspace files path while typing
+- [ ] Color variance for identifiers based on their's name
+- [ ] Local and cross module go to declaration
+- [ ] Capture inner blocks of interpolated strings
+      ($"{_block_}")
+- [ ] Highlight all function identifiers, including function arguments, array values and table fields definitions
+      (._func_(), function _func_(), _func_ = function()|@(), (_func_()), \[_func_()\], { _func_ = function()|@() })
+- [ ] Set of common key-value pairs for table fields autocompletion (key = val1|val2 ...)
+- [ ] Highlighting of JSDOC tags in documentation comment blocks /** */
+- [ ] Traversing blocks, tables, strings interpolation, function arguments etc
+- [ ] Definitions for common global classes, functions and constants
+- [ ] Static syntax analyzer
+- [ ] Autoidentation
