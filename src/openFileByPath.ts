@@ -9,7 +9,7 @@ function tryOpenDocument(filePath: string): boolean {
   if (isFound)
     vs.workspace.openTextDocument(filePath)
       .then((doc: vs.TextDocument) =>
-        vs.window.showTextDocument(doc, { preview: false }));
+        vs.window.showTextDocument(doc)); // { preview: false }
   return isFound;
 }
 
@@ -18,9 +18,10 @@ export default function openFileByPath() {
   if (!editor) return;
 
   const line = editor.document.lineAt(editor.selection.active.line).text;
-  const filePath = extractRequirePath(line);
+  let filePath = extractRequirePath(line);
   if (!filePath) return;
 
+  filePath = path.normalize(filePath);
   if (path.isAbsolute(filePath)) {
     // absolute path
     tryOpenDocument(filePath);
