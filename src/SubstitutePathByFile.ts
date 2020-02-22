@@ -1,0 +1,104 @@
+import * as vs from 'vscode';
+import { promises as fs } from 'fs';
+import * as path from 'path';
+
+import { extractRequirePath, normalizeBackslashes, truncatePath } from './utils';
+
+const IGNORE_DIRS = ['node_modules', 'out', 'obj', 'bin', 'tmp'];
+
+async function findFile(dir: string, find: string) {
+  let fileList: string[] = [];
+  const files = await fs.readdir(dir);
+  for (const file of files) {
+    if (file.charAt(0) == '.' || IGNORE_DIRS.indexOf(file) >= 0)
+      continue;
+    const full = path.join(dir, file);
+    const stat = await fs.stat(full);
+    if (stat.isDirectory()) 
+      fileList = fileList.concat(await findFile(full, find));
+    else if (stat.isFile() && file === find)
+      fileList.push(full);
+  }
+  return fileList;
+}
+
+export class SubstitutePathByFile implements vs.CompletionItemProvider {
+
+  provideCompletionItems(
+    document: vs.TextDocument,
+    position: vs.Position,
+    token: vs.CancellationToken,
+    context: vs.CompletionContext) {
+
+    const line = document.lineAt(position).text;
+    const fileSrc = extractRequirePath(line);
+    if (!fileSrc)
+      return undefined;
+    
+    return new Promise<vs.CompletionItem[]>(async (resolve) => {
+      const result: vs.CompletionItem[] = [];
+
+      const rangeLine = position.line;
+      const rangeBegin = line.indexOf(fileSrc);
+      const rangeEnd = rangeBegin + fileSrc.length;
+      const range = new vs.Range(rangeLine, rangeBegin, rangeLine, rangeEnd);
+
+      const fileFull = normalizeBackslashes(path.normalize(fileSrc));
+      const isFile = fileFull.slice(-1) !== '/'
+      const docFull = normalizeBackslashes(path.normalize(document.fileName));
+      const { base: docName, dir: docPath } = path.parse(docFull);
+
+      function appendCompletion(label: string, description?: string) {
+        const item =  new vs.CompletionItem(truncatePath(label));
+        item.kind = isFile ? vs.CompletionItemKind.File : vs.CompletionItemKind.Folder;
+        item.insertText = label;
+        item.range = range;
+        item.filterText = fileSrc;
+        item.documentation = description;
+        result.push(item);
+      }
+
+      if (path.isAbsolute(fileFull)) {
+        // reduce absolute path relative to the document 
+        if (fileFull.indexOf(docPath) === 0) {
+          const pathReduced = fileFull.substr(docPath.length + 1);
+          if (pathReduced.length > 0)
+            appendCompletion(pathReduced, `Reduced to document relative: ./${docName}`);
+        }
+
+        // reduce absolute path relative to the workspaces
+        const dirWorkspaces = vs.workspace.workspaceFolders || [];
+        dirWorkspaces.forEach((wspace) => {
+          const wsFull = normalizeBackslashes(path.normalize(wspace.uri.fsPath));
+          if (fileFull.indexOf(wsFull) === 0) {
+            const pathReduced = fileFull.substr(wsFull.length + 1);
+            if (pathReduced.length > 0)
+              appendCompletion(pathReduced, `Reduced to workspace relative: ~${wspace.name}`);
+          }
+        });
+      } else {
+        const { base: fileName } = path.parse(fileFull);
+
+        // find relative path from the document
+        const docRelated = await findFile(docPath, fileName);
+        docRelated.forEach((path) => {
+          path = normalizeBackslashes(path.substr(docPath.length + 1));
+          appendCompletion(path, `Relative to document: ./${docName}`);
+        });
+
+        // find relative path from workspaces
+        const dirWorkspaces = vs.workspace.workspaceFolders || [];
+        await Promise.all(dirWorkspaces.map(async (wspace) => {
+          const wsPath = normalizeBackslashes(path.normalize(wspace.uri.fsPath));
+          const wsRelated = await findFile(wsPath, fileName);
+          wsRelated.forEach((path) => {
+            path = normalizeBackslashes(path.substr(wsPath.length + 1));
+            appendCompletion(path, `Relative to workspace: ~${wspace.name}`);
+          });
+        }));
+      }
+      resolve(result);
+    });
+  }
+
+}
