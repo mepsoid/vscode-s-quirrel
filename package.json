@@ -2,7 +2,7 @@
   "name": "vscode-s-quirrel",
   "displayName": "(S)quirrel",
   "description": "Squirrel and Quirrel language support",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "mepsoid",
   "icon": "acorn.png",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "@types/node": "^10.12.18",
     "tslint": "^5.16.0",
     "typescript": "^3.5.1",
-    "@types/vscode": "^1.32.0"
+    "@types/vscode": "^1.16.0"
   },
   "contributes": {
     "languages": [
