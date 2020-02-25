@@ -34,23 +34,28 @@ export class SubstitutePathByFile implements vs.CompletionItemProvider {
     const fileSrc = extractRequirePath(line);
     if (!fileSrc)
       return undefined;
-    
+
+    const rangeBegin = line.indexOf(fileSrc);
+    const rangeEnd = rangeBegin + fileSrc.length;
+    if (position.character < rangeBegin || position.character > rangeEnd)
+      return undefined;
+
     return new Promise<vs.CompletionItem[]>(async (resolve) => {
       const result: vs.CompletionItem[] = [];
 
       const rangeLine = position.line;
-      const rangeBegin = line.indexOf(fileSrc);
-      const rangeEnd = rangeBegin + fileSrc.length;
       const range = new vs.Range(rangeLine, rangeBegin, rangeLine, rangeEnd);
 
       const fileFull = normalizeBackslashes(path.normalize(fileSrc));
-      const isFile = fileFull.slice(-1) !== '/'
+      const fileKind = fileFull.slice(-1) !== '/'
+        ? vs.CompletionItemKind.File
+        : vs.CompletionItemKind.Folder;
       const docFull = normalizeBackslashes(path.normalize(document.fileName));
       const { base: docName, dir: docPath } = path.parse(docFull);
 
       function appendCompletion(label: string, description?: string) {
         const item =  new vs.CompletionItem(truncatePath(label));
-        item.kind = isFile ? vs.CompletionItemKind.File : vs.CompletionItemKind.Folder;
+        item.kind = fileKind
         item.insertText = label;
         item.range = range;
         item.filterText = fileSrc;
