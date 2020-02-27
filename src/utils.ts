@@ -3,11 +3,17 @@ const PATH_MAX = 44;
 
 export function extractRequirePath(line: string): string {
   const result = REQUIRE_PATH.exec(line);
-  return result ? result[1] : "";
+  return result ? result[1] : '';
 }
 
 export function normalizeBackslashes(backslashed: string): string {
   return backslashed ? backslashed.replace(/\\/g, '/') : backslashed;
+}
+
+export function compareFileName(filter: string, fileName: string): boolean {
+  filter = (filter || '').toLowerCase();
+  fileName = (fileName || '').toLowerCase();
+  return fileName.indexOf(filter) >= 0;
 }
 
 export function truncatePath(path:string): string {

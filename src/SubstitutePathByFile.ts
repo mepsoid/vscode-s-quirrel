@@ -2,11 +2,12 @@ import * as vs from 'vscode';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 
-import { extractRequirePath, normalizeBackslashes, truncatePath } from './utils';
+import { extractRequirePath, normalizeBackslashes, truncatePath,
+  compareFileName } from './utils';
 
 const IGNORE_DIRS = ['node_modules', 'out', 'obj', 'bin', 'tmp'];
 
-async function findFile(dir: string, find: string) {
+async function findFile(dir: string, filter: string) {
   let fileList: string[] = [];
   const files = await fs.readdir(dir);
   for (const file of files) {
@@ -15,8 +16,8 @@ async function findFile(dir: string, find: string) {
     const full = path.join(dir, file);
     const stat = await fs.stat(full);
     if (stat.isDirectory()) 
-      fileList = fileList.concat(await findFile(full, find));
-    else if (stat.isFile() && file === find)
+      fileList = fileList.concat(await findFile(full, filter));
+    else if (stat.isFile() && compareFileName(filter, file))
       fileList.push(full);
   }
   return fileList;
