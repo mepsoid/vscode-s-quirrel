@@ -56,6 +56,12 @@
         "path": "./syntaxes/squirrel.tmLanguage.json"
       }
     ],
+    "snippets": [
+      {
+        "language": "squirrel",
+        "path": "./snippets/squirrel.json"
+      }
+    ],
     "keybindings": [
       {
         "key": "f12",

@@ -1,0 +1,19 @@
+{
+  "local": {
+    "prefix": "local",
+    "body": "local ${1:name} = ${0}",
+    "description": "Declaration of local variable"
+  },
+
+  "require": {
+    "prefix": "require",
+    "body": "require(\"${0:path}\")",
+    "description": "Require external module"
+  },
+
+  "function": {
+    "prefix": "function",
+    "body": "function${1}(${2:args}) {\n\t${0}\n}",
+    "description": "Function declaration"
+  }
+}
