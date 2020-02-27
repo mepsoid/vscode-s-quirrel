@@ -30,11 +30,12 @@
 
 - [x] Basic squirrel syntax highlighting
 - [x] Editor key binding to open selected module file path in new tab
+- [x] Capture inner blocks of interpolated strings
+      ($"{_block_}")
+- [ ] Remove trailing spaces on document save
 - [ ] Autocompletion for workspace files path while typing
 - [ ] Color variance for identifiers based on their's name
 - [ ] Local and cross module go to declaration
-- [ ] Capture inner blocks of interpolated strings
-      ($"{_block_}")
 - [ ] Highlight all function identifiers, including function arguments, array values and table fields definitions
       (._func_(), function _func_(), _func_ = function()|@(), (_func_()), \[_func_()\], { _func_ = function()|@() })
 - [ ] Set of common key-value pairs for table fields autocompletion (key = val1|val2 ...)

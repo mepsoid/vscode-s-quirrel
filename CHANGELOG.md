@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.0.3
+
+- Search paths of modules with case insensitive substring
+- Snippets for local, require and function added
+- Basic interpolated strings highlighting
+- Some minor syntax highlighting fixes
+
 ## 0.0.2
 
 - Open file by path in require()
