@@ -245,13 +245,34 @@
     "strings": {
       "patterns": [
         {
-          "begin": "(?:@|\\$)\\\"",
+          "begin": "@\\\"",
           "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.squirrel" } },
           "end": "\\\"",
           "endCaptures": { "0": { "name": "punctuation.definition.string.end.squirrel" } },
           "name": "string.quoted.double.squirrel",
           "patterns": [
             { "include": "#string-escape-sequences" }
+          ]
+        },
+        {
+          "begin": "\\$\\\"",
+          "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.squirrel" } },
+          "end": "\\\"",
+          "endCaptures": { "0": { "name": "punctuation.definition.string.end.squirrel" } },
+          "name": "string.quoted.double.squirrel",
+          "patterns": [
+            { "include": "#string-escape-sequences" },
+            {
+              "begin": "(?<=\\{)",
+              "beginCaptures": { "1": { "name": "punctuation.definition.block.begin.squirrel" } },
+              "end": "(\\})",
+              "endCaptures": { "1": { "name": "punctuation.definition.block.end.squirrel" } },
+              "name": "meta.method.block.squirrel",
+              "patterns": [
+                { "include": "#block" },
+                { "include": "#block-contents" }
+              ]
+            }
           ]
         },
         {
