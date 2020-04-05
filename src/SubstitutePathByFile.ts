@@ -2,8 +2,9 @@ import * as vs from 'vscode';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 
-import { extractRequirePath, normalizeBackslashes, truncatePath,
-  compareFileName } from './utils';
+import {
+  extractRequirePath, normalizeBackslashes, truncatePath, compareFileName
+} from './utils';
 
 const IGNORE_DIRS = ['node_modules', 'out', 'obj', 'bin', 'tmp'];
 
@@ -26,27 +27,19 @@ async function findFile(dir: string, filter: string) {
 export class SubstitutePathByFile implements vs.CompletionItemProvider {
 
   provideCompletionItems(
-    document: vs.TextDocument,
-    position: vs.Position,
-    token: vs.CancellationToken,
-    context: vs.CompletionContext) {
-
+    document: vs.TextDocument, position: vs.Position,
+    token: vs.CancellationToken, context: vs.CompletionContext
+  ) {
     const line = document.lineAt(position).text;
-    const fileSrc = extractRequirePath(line);
-    if (!fileSrc)
-      return undefined;
-
-    const rangeBegin = line.indexOf(fileSrc);
-    const rangeEnd = rangeBegin + fileSrc.length;
-    if (position.character < rangeBegin || position.character > rangeEnd)
+    const currentPath = extractRequirePath(line, position.character);
+    if (!currentPath)
       return undefined;
 
     return new Promise<vs.CompletionItem[]>(async (resolve) => {
       const result: vs.CompletionItem[] = [];
-
       const rangeLine = position.line;
-      const range = new vs.Range(rangeLine, rangeBegin, rangeLine, rangeEnd);
-
+      const range = new vs.Range(rangeLine, currentPath.begin, rangeLine, currentPath.end);
+      const fileSrc = currentPath.name;
       const fileFull = normalizeBackslashes(path.normalize(fileSrc));
       const fileKind = fileFull.slice(-1) !== '/'
         ? vs.CompletionItemKind.File

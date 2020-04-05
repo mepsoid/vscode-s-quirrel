@@ -15,13 +15,16 @@ function tryOpenDocument(filePath: string): boolean {
 
 export default function openFileByPath() {
   const editor = vs.window.activeTextEditor;
-  if (!editor) return;
+  if (!editor)
+    return;
 
-  const line = editor.document.lineAt(editor.selection.active.line).text;
-  let filePath = extractRequirePath(line);
-  if (!filePath) return;
+  const position = editor.selection.active;
+  const line = editor.document.lineAt(position.line).text;
+  const currentPath = extractRequirePath(line, position.character);
+  if (!currentPath)
+    return;
 
-  filePath = path.normalize(filePath);
+  const filePath = path.normalize(currentPath.name);
   if (path.isAbsolute(filePath)) {
     // absolute path
     tryOpenDocument(filePath);
@@ -31,11 +34,13 @@ export default function openFileByPath() {
   // relative path from the current document
   const dirRelative = path.dirname(editor.document.fileName);
   const isRelative = tryOpenDocument(path.join(dirRelative, filePath));
-  if (isRelative) return;
+  if (isRelative)
+    return;
 
   // workspace relative paths
   const dirWorkspaces = vs.workspace.workspaceFolders;
-  if (!dirWorkspaces) return;
+  if (!dirWorkspaces)
+    return;
 
   dirWorkspaces.forEach((dir: vs.WorkspaceFolder) =>
     tryOpenDocument(path.join(dir.uri.fsPath, filePath)));
