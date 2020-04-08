@@ -28,10 +28,10 @@
     "watch": "tsc -watch -p ./"
   },
   "devDependencies": {
-    "@types/node": "^10.12.18",
+    "@types/node": "^10.17.19",
+    "@types/vscode": "^1.43.0",
     "tslint": "^5.16.0",
-    "typescript": "^3.5.1",
-    "@types/vscode": "^1.16.0"
+    "typescript": "^3.8.3"
   },
   "contributes": {
     "languages": [
