@@ -1,4 +1,4 @@
-const PATH_MAX = 43;
+const PATH_MAX = 41;
 
 export type ExtractedPath = { begin: number, end: number; name: string };
 
