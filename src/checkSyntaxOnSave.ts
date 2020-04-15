@@ -12,9 +12,7 @@ type DiagnosticItem = {
   isError: boolean;
 }
 
-type DiagnosticResult = {
-  messages: DiagnosticItem[];
-}
+type DiagnosticResult = { messages: DiagnosticItem[]; }
 
 const DIAGNOSTIC_SOURCE = 'Static analysis';
 const ERRORCODE_UNUSED = [213, 221, 228];
@@ -33,25 +31,27 @@ export default function checkSyntaxOnSave(document: vs.TextDocument) {
   versionControl[srcPath] = version;
 
   const config = vs.workspace.getConfiguration('squirrel.syntaxChecker');
-  const fileName: string = config.get('fileName') || '';
-  const fullPath: string = config.get('fullPath') || '';
   const envVar: string = config.get('envVar') || '';
-  const options: string = config.get('options') || '';
+  let fileName: string = process.env[envVar] || '';
+  if (!envVar || !fileName)
+    fileName = config.get('fileName') || '';
+  let options: string = config.get('options') || '';
+  options = options.replace(/\$\{source\}/gi, srcPath);
 
-  const finalPath = fileName ? fileName
-    : fullPath ? fullPath
-    : envVar ? process.env[envVar] || ''
-    : '';
-  const finalOptions = options.replace(/\$\{source\}/gi, srcPath);
+  exec(`${fileName} ${options}`, (error, stdout, stderr) => {
+    if (stderr) {
+      // TODO diagnose analyzer execution failure
+      return;
+    }
 
-  exec(`${finalPath} ${finalOptions}`, (error, stdout, stderr) => {
-    const result: DiagnosticResult = JSON.parse(stdout);
-    const messages = result?.messages;
-    if (!result || !messages) {
+    if (error && !stdout) {
+      // TODO diagnose different errorlevels
       diagnostics.clear();
       return;
     }
 
+    const result: DiagnosticResult = JSON.parse(stdout);
+    const messages = result?.messages || [];
     const diagList: vs.Diagnostic[] = messages.map((msg) => {
       const line = msg.line - 1;
       const col = msg.col - 1;
@@ -61,14 +61,10 @@ export default function checkSyntaxOnSave(document: vs.TextDocument) {
         : vs.DiagnosticSeverity.Warning;
       const errorCode = msg.intId;
       const diag = new vs.Diagnostic(range, msg.message, severity);
-      diag.code = [msg.textId, errorCode].join(':');
+      diag.code = [errorCode, msg.textId].join(':');
       diag.source = DIAGNOSTIC_SOURCE;
-      const tags = [];
       if (ERRORCODE_UNUSED.indexOf(errorCode) >= 0)
-        tags.push(vs.DiagnosticTag.Unnecessary);
-      // diag.tags = [vs.DiagnosticTag.Deprecated, vs.DiagnosticTag.Unnecessary];
-      if (tags.length)
-        diag.tags = tags;
+        diag.tags = [vs.DiagnosticTag.Unnecessary];
       return diag;
     });
     diagnostics.set(document.uri, diagList);

@@ -37,25 +37,20 @@
     "configuration": {
       "title": "(S)quirrel",
       "properties": {
-        "squirrel.syntaxChecker.fileName": {
-          "type": "string",
-          "default": "sq3_static_analyzer-dev",
-          "markdownDescription": "Name of syntax checking utility that must be discoverable through system **PATH** variable. This filename will be used as *first priority*."
-        },
-        "squirrel.syntaxChecker.fullPath": {
-          "type": "string",
-          "default": "",
-          "markdownDescription": "Full path to syntax checking utility. Will be used as *second priority* if **File Name** value is undefined."
-        },
         "squirrel.syntaxChecker.envVar": {
           "type": "string",
           "default": "SQ_SA_PATH",
-          "markdownDescription": "Name of environment variable that will be used to get full path to syntax checking utility. Will be used as *third priority* if **File Name** and **Full Path** are both undefined."
+          "markdownDescription": "Identifier of environment variable that contains full path to syntax checking utility. If set, will be used as *first priority*."
+        },
+        "squirrel.syntaxChecker.fileName": {
+          "type": "string",
+          "default": "sq3_static_analyzer-dev",
+          "markdownDescription": "Syntax checking utility name that must be discoverable through system **PATH** variable or full path to executable. This filename will be used as *second priority* if **Env Var** is undefined or have empty value."
         },
         "squirrel.syntaxChecker.options": {
           "type": "string",
           "default": "-w242 -w246 --message-output-file: ${source}",
-          "markdownDescription": "Command line options that will be passed to syntax checking utility. Supposes substitution of *${source}* value with path to the current source file."
+          "markdownDescription": "Command line options passed to syntax checking utility. Supposes substitution of *${source}* value with path to the current source file."
         }
       }
     },
