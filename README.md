@@ -32,6 +32,8 @@
 - [x] Editor key binding to open selected module file path in new tab
 - [x] Capture inner blocks of interpolated strings
       ($"{_block_}")
+- [x] External syntax static analyzer
+- [ ] Whiteboard for code quick check
 - [ ] Remove trailing spaces on document save
 - [ ] Autocompletion for workspace files path while typing
 - [ ] Color variance for identifiers based on their's name
@@ -42,5 +44,4 @@
 - [ ] Highlighting of JSDOC tags in documentation comment blocks /** */
 - [ ] Traversing blocks, tables, strings interpolation, function arguments etc
 - [ ] Definitions for common global classes, functions and constants
-- [ ] Static syntax analyzer
 - [ ] Autoidentation

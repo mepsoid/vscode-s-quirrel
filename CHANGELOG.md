@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.0.4
+
+- External syntax checking on file save
+- Fixed multiple require() issues
+
 ## 0.0.3
 
 - Search paths of modules with case insensitive substring

@@ -2,12 +2,12 @@
   "name": "vscode-s-quirrel",
   "displayName": "(S)quirrel",
   "description": "Squirrel and Quirrel language support",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publisher": "mepsoid",
   "icon": "acorn.png",
   "license": "MIT",
   "engines": {
-    "vscode": "^1.16.0"
+    "vscode": "^1.43.0"
   },
   "categories": [
     "Programming Languages"
