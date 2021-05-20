@@ -3,6 +3,7 @@ import * as vs from 'vscode';
 import { SubstitutePathByFile } from './SubstitutePathByFile';
 import openFileByPath from './openFileByPath';
 import checkSyntaxOnSave from './checkSyntaxOnSave';
+import clearDiagsOnClose from './clearDiagsOnClose';
 
 export function activate(context: vs.ExtensionContext) {
   const DOCUMENT: vs.DocumentSelector = { language: 'squirrel', scheme: 'file' };
@@ -15,6 +16,7 @@ export function activate(context: vs.ExtensionContext) {
   context.subscriptions.push(commandOpenByPath);
 
   vs.workspace.onDidSaveTextDocument(checkSyntaxOnSave);
+  vs.workspace.onDidCloseTextDocument(clearDiagsOnClose);
 }
 
 export function deactivate() {

@@ -1,5 +1,6 @@
 import * as vs from 'vscode';
 import { exec } from 'child_process';
+import syntaxDiags from './syntaxDiags';
 
 type DiagnosticItem = {
   line: number;
@@ -17,7 +18,6 @@ type DiagnosticResult = { messages: DiagnosticItem[]; }
 const DIAGNOSTIC_SOURCE = 'Static analysis';
 const ERRORCODE_UNUSED = [213, 221, 228];
 
-const diagnostics = vs.languages.createDiagnosticCollection('squirrel');
 const versionControl: {[key: string]: number;} = {};
 
 export default function checkSyntaxOnSave(document: vs.TextDocument) {
@@ -39,13 +39,13 @@ export default function checkSyntaxOnSave(document: vs.TextDocument) {
   exec(`${fileName} ${options}`, (error, stdout, stderr) => {
     if (stderr) {
       // TODO diagnose analyzer execution failure
-      diagnostics.delete(document.uri);
+      syntaxDiags.delete(document.uri);
       return;
     }
 
     if (error && !stdout) {
       // TODO diagnose different errorlevels
-      diagnostics.clear();
+      syntaxDiags.clear();
       return;
     }
 
@@ -66,6 +66,6 @@ export default function checkSyntaxOnSave(document: vs.TextDocument) {
         diag.tags = [vs.DiagnosticTag.Unnecessary];
       return diag;
     });
-    diagnostics.set(document.uri, diagList);
+    syntaxDiags.set(document.uri, diagList);
   });
 }
