@@ -9,7 +9,7 @@ import {
 const IGNORE_DIRS = ['node_modules', 'out', 'obj', 'bin', 'tmp'];
 
 async function findFile(dir: string, filter: string) {
-  let fileList: string[] = [];
+  let fileList: { [key: string]: number } = {};
   const files = await fs.readdir(dir);
   for (const file of files) {
     if (file.charAt(0) == '.' || IGNORE_DIRS.indexOf(file) >= 0)
@@ -17,11 +17,18 @@ async function findFile(dir: string, filter: string) {
     const full = path.join(dir, file);
     const stat = await fs.stat(full);
     if (stat.isDirectory()) 
-      fileList = fileList.concat(await findFile(full, filter));
-    else if (stat.isFile() && compareFileName(filter, file))
-      fileList.push(full);
+      Object.assign(fileList, await findFile(full, filter));
+    else if (stat.isFile()) {
+      const likeness = compareFileName(filter, file);
+      if (likeness > 0)
+        fileList[full] = likeness;
+    }
   }
   return fileList;
+}
+
+function pad(num: number): string {
+  return ('00000' + num.toString()).substr(-6);
 }
 
 export class SubstitutePathByFile implements vs.CompletionItemProvider {
@@ -47,13 +54,14 @@ export class SubstitutePathByFile implements vs.CompletionItemProvider {
       const docFull = normalizeBackslashes(path.normalize(document.fileName));
       const { base: docName, dir: docPath } = path.parse(docFull);
 
-      function appendCompletion(label: string, description?: string) {
+      function appendCompletion(label: string, documentation?: string, sortText?: string) {
         const item =  new vs.CompletionItem(truncatePath(label));
         item.kind = fileKind
         item.insertText = label;
         item.range = range;
         item.filterText = fileSrc;
-        item.documentation = description;
+        item.documentation = documentation;
+        item.sortText = sortText;
         result.push(item);
       }
 
@@ -80,20 +88,24 @@ export class SubstitutePathByFile implements vs.CompletionItemProvider {
 
         // find relative path from the document
         const docRelated = await findFile(docPath, fileName);
-        docRelated.forEach((path) => {
+        for (let path in docRelated) {
+          const likeness = docRelated[path];
           path = normalizeBackslashes(path.substr(docPath.length + 1));
-          appendCompletion(path, `Relative to document: ./${docName}`);
-        });
+          appendCompletion(path, `Relative to document: ./${docName}`,
+            `${pad(likeness)}${pad(path.length)}`);
+        }
 
         // find relative path from workspaces
         const dirWorkspaces = vs.workspace.workspaceFolders || [];
         await Promise.all(dirWorkspaces.map(async (wspace) => {
           const wsPath = normalizeBackslashes(path.normalize(wspace.uri.fsPath));
           const wsRelated = await findFile(wsPath, fileName);
-          wsRelated.forEach((path) => {
+          for (let path in wsRelated) {
+            const likeness = wsRelated[path];
             path = normalizeBackslashes(path.substr(wsPath.length + 1));
-            appendCompletion(path, `Relative to workspace: ~${wspace.name}`);
-          });
+            appendCompletion(path, `Relative to workspace: ~${wspace.name}`,
+              `${pad(likeness)}${pad(path.length)}`);
+          }
         }));
       }
       resolve(result);
