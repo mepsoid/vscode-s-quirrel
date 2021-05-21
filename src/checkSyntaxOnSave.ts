@@ -33,7 +33,7 @@ export default function checkSyntaxOnSave(document: vs.TextDocument) {
   const config = vs.workspace.getConfiguration('squirrel.syntaxChecker');
   let fileName: string = config.get('fileName') || '';
   fileName = process.env[fileName] || fileName;
-  let options: string = config.get('options') || '';
+  let options: string = config.get('optionsCheckCode') || '';
   options = options.replace(/\$\{source\}/gi, srcPath);
 
   exec(`${fileName} ${options}`, (error, stdout, stderr) => {

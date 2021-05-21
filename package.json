@@ -42,10 +42,15 @@
           "default": "sq3_static_analyzer-dev",
           "markdownDescription": "Identifier of environment variable that contains full path to syntax checking utility, or full path to syntax checking utility, or executable file name that must be discoverable through system **PATH** variable."
         },
-        "squirrel.syntaxChecker.options": {
+        "squirrel.syntaxChecker.optionsCheckCode": {
           "type": "string",
           "default": "--message-output-file: ${source}",
           "markdownDescription": "Command line options passed to syntax checking utility. Supposes substitution of *${source}* value with path to the current source file."
+        },
+        "squirrel.syntaxChecker.optionsBuildTree": {
+          "type": "string",
+          "default": "${source} --ast-output-file:",
+          "markdownDescription": "Command line options passed to AST build utility. Supposes substitution of *${source}* value with path to the current source file."
         },
         "squirrel.codeRunner.fileName": {
           "type": "string",
