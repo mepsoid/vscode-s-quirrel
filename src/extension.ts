@@ -2,6 +2,7 @@ import * as vs from 'vscode';
 
 import { SubstitutePathByFile } from './SubstitutePathByFile';
 import openFileByPath from './openFileByPath';
+import runDocumentCode from './runDocumentCode';
 import checkSyntaxOnSave from './checkSyntaxOnSave';
 import clearDiagsOnClose from './clearDiagsOnClose';
 
@@ -12,8 +13,12 @@ export function activate(context: vs.ExtensionContext) {
   context.subscriptions.push(completePath);
 
   const commandOpenByPath: vs.Disposable = vs.commands.registerCommand(
-    'squirrel.editor.action.revealDefinition', openFileByPath);
+    'squirrel.editor.action.openModule', openFileByPath);
   context.subscriptions.push(commandOpenByPath);
+
+  const commandRunDocumentCode: vs.Disposable = vs.commands.registerCommand(
+    'squirrel.editor.action.runCode', runDocumentCode);
+  context.subscriptions.push(commandRunDocumentCode);
 
   vs.workspace.onDidSaveTextDocument(checkSyntaxOnSave);
   vs.workspace.onDidCloseTextDocument(clearDiagsOnClose);

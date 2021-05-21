@@ -46,6 +46,16 @@
           "type": "string",
           "default": "--message-output-file: ${source}",
           "markdownDescription": "Command line options passed to syntax checking utility. Supposes substitution of *${source}* value with path to the current source file."
+        },
+        "squirrel.codeRunner.fileName": {
+          "type": "string",
+          "default": "csq-dev",
+          "markdownDescription": "Identifier of environment variable that contains full path to code runner utility, or full path to code runner utility, or executable file name that must be discoverable through system **PATH** variable."
+        },
+        "squirrel.codeRunner.options": {
+          "type": "string",
+          "default": "${source}",
+          "markdownDescription": "Command line options passed to code runner utility. Supposes substitution of *${source}* value with path to the source file."
         }
       }
     },
@@ -77,10 +87,25 @@
         "path": "./snippets/squirrel.json"
       }
     ],
+    "commands": [
+      {
+        "command": "squirrel.editor.action.openModule",
+        "title": "Open module source in new tab"
+      },
+      {
+        "command": "squirrel.editor.action.runCode",
+        "title": "Run code at active document"
+      }
+    ],
     "keybindings": [
       {
         "key": "f12",
-        "command": "squirrel.editor.action.revealDefinition",
+        "command": "squirrel.editor.action.openModule",
+        "when": "editorTextFocus && editorLangId == 'squirrel'"
+      },
+      {
+        "key": "ctrl+f5",
+        "command": "squirrel.editor.action.runCode",
         "when": "editorTextFocus && editorLangId == 'squirrel'"
       }
     ]
