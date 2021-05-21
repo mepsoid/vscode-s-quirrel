@@ -6,8 +6,8 @@
   },
 
   "require": {
-    "prefix": "require",
-    "body": "require(\"${0:path}\")",
+    "prefix": ["req", "require"],
+    "body": "require(\"${0:path}.nut\")",
     "description": "Require external module"
   },
 
@@ -15,5 +15,221 @@
     "prefix": "function",
     "body": "function${1}(${2:args}) {\n\t${0}\n}",
     "description": "Function declaration"
+  },
+
+  "todo": {
+    "prefix": "todo",
+    "body": "$BLOCK_COMMENT_START TODO: ${0} $BLOCK_COMMENT_END",
+    "description": "To Do Comment"
+  },
+
+  "fix": {
+    "prefix": "fix",
+    "body": "$BLOCK_COMMENT_START FIX ME: ${0} $BLOCK_COMMENT_END",
+    "description": "To Do Comment"
+  },
+
+  "watchElemState": {
+    "prefix": "[watchElem, watchElemState]",
+    "body": "::watchElemState(@(sf){\n\t${0}\n}",
+    "description": "watchElemState"
+  },
+
+  "for loop": {
+    "prefix": "for",
+    "body": "for(${1:local i = 0}, ${2:end}, ${3:i++}){\n\t${4: loop}\n}",
+    "description": "for loop"
+  },
+
+  "foreach loop": {
+    "prefix": "foreach",
+    "body": "foreach(${1:key} in ${2:container}){\n\t${3: loop}\n}",
+    "description": "foreach loop"
+  },
+
+  "hpdx": {
+    "prefix": "hd",
+    "body": "::hdpx(${1:int})",
+    "description": "hdpx"
+  },
+
+  "hotkeys": {
+    "prefix": "hotkeys",
+    "body": "hotkeys = [[\"^J:${1:A}\", {description = ::loc(\"${2:text}\")}]]",
+    "description": "hotkeys"
+  },
+
+  "viewConst": {
+    "prefix": "viewConst",
+    "body": "require(\"enlisted/enlist/viewConst.nut\")",
+    "description": "viewConst"
+  },
+
+  "computed": {
+    "prefix": "computed",
+    "body": "::Computed(@() ${0})",
+    "description": "computed"
+  },
+
+  "kwarg": {
+    "prefix": "kwarg",
+    "body": "::kwarg(function(${1:args})){\n\t${0}\n}",
+    "description": "kwarg function"
+  },
+
+  "set timeout": {
+    "prefix": "setTimeout",
+    "body": "::gui_scene.setTimeout(${1:0.1}, ${2:action})",
+    "description": "set Timeout"
+  },
+
+  "reset timeout": {
+    "prefix": "setTimeout",
+    "body": "::gui_scene.resetTimeout(${1:0.1}, ${2:action})",
+    "description": "reset Timeout"
+  },
+
+  "localisation": {
+    "prefix": "loc",
+    "body": "::loc(${0})",
+    "description": "localisation"
+  },
+
+  "rendObj": {
+    "prefix": "rend",
+    "body": "rendObj",
+    "description": "rendObj"
+  },
+
+  "robj_dtext": {
+    "prefix": "rend",
+    "body": "rendObj",
+    "description": "rendObj"
+  },
+
+  "robj_stext": {
+    "prefix": "stext",
+    "body": "ROBJ_STEXT",
+    "description": "ROBJ_STEXT"
+  },
+
+  "robj_box": {
+    "prefix": "box",
+    "body": "ROBJ_BOX",
+    "description": "ROBJ_BOX"
+  },
+
+  "align_center": {
+    "prefix": "ac",
+    "body": "ALIGN_CENTER",
+    "description": "ALIGN_CENTER"
+  },
+
+  "align_bottom": {
+    "prefix": "ab",
+    "body": "ALIGN_BOTTOM",
+    "description": "ALIGN_BOTTOM"
+  },
+
+  "allign_right": {
+    "prefix": "ar",
+    "body": "ALIGN_RIGHT",
+    "description": "ALIGN_RIGHT"
+  },
+
+  "allign_left": {
+    "prefix": "al",
+    "body": "ALIGN_LEFT",
+    "description": "ALIGN_LEFT"
+  },
+
+  "skipDirPadNav": {
+    "prefix": "skip",
+    "body": "skipDirPadNav",
+    "description": "skipDirPadNav"
+  },
+
+  "flow_vertical": {
+    "prefix": "vertical",
+    "body": "FLOW_VERTICAL",
+    "description": "FLOW_VERTICAL"
+  },
+
+  "flow_horizontal": {
+    "prefix": "horizont",
+    "body": "FLOW_HORIZONTAL",
+    "description": "FLOW_HORIZONTAL"
+  },
+
+  "children": {
+    "prefix": "ch",
+    "body": "children",
+    "description": "children"
+  },
+
+  "behavior": {
+    "prefix": "bh",
+    "body": "behavior",
+    "description": "behavior"
+  },
+
+  "behavior_button": {
+    "prefix": "button",
+    "body": "Behaviors.Button",
+    "description": "Behaviors.Button"
+  },
+
+  "behavior_textarea": {
+    "prefix": "textarea",
+    "body": "Behaviors.TextArea",
+    "description": "Behaviors.TextArea"
+  },
+
+  "__update": {
+    "prefix": ".__u",
+    "body": ".__update(${0})",
+    "description": "__update"
+  },
+
+  "__merge": {
+    "prefix": ".__m",
+    "body": ".__merge(${0})",
+    "description": "__merge"
+  },
+
+  "stateFlag": {
+    "prefix": "sf",
+    "body": "stateFlag",
+    "description": "stateFlag"
+  },
+
+  "vplace": {
+    "prefix": "vp",
+    "body": "vplace = ${0}",
+    "description": "vplace"
+  },
+
+  "valign": {
+    "prefix": "va",
+    "body": "valign = ${0}",
+    "description": "valign"
+  },
+
+  "hplace": {
+    "prefix": "hp",
+    "body": "hplace = ${0}",
+    "description": "vplace"
+  },
+
+  "halign": {
+    "prefix": "ha",
+    "body": "halign = ${0}",
+    "description": "halign"
+  },
+
+  "fillColor": {
+    "prefix": "fc",
+    "body": "fillColor = ${0}",
+    "description": "fillColor"
   }
 }

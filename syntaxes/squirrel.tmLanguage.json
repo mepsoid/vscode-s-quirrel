@@ -11,13 +11,15 @@
         { "include": "#class" },
         { "include": "#enum" },
         { "include": "#block" },
-        { "include": "#block-contents" }
+        { "include": "#block-contents" },
+        { "include": "#lambda-expression" }
       ]
     },
 
     "global": {
       "patterns": [
-        { "include": "#comments" }
+        { "include": "#comments" },
+        { "include": "#lambda-expression" }
       ]
     },
 
@@ -144,7 +146,14 @@
         { "include": "#identifiers" }
       ]
     },
-
+    "lambda-expression": {
+			"patterns": [
+				{
+					"match": "@()",
+					"name": "storage.type.function.lambda.squirrel"
+				}
+			]
+		},
     "array": {
       "begin": "\\[",
       "beginCaptures": { "0": { "name": "punctuation.definition.array.begin.squirrel" } },
@@ -585,6 +594,18 @@
           "name": "keyword.operator.logical.squirrel"
         },
         {
+          "begin": "\\(not",
+          "end": "\\in)",
+          "match": "not in",
+          "beginCaptures": {
+            "0": { "name": "keyword.operator.logical" }
+          },
+          "endCaptures": {
+            "0": { "name": "keyword.operator.logical" }
+          },
+          "name": "keyword.operator.logical.squirrel"
+        },
+        {
           "mathc": "\\b(__LINE__|__FILE__)\\b",
           "name": "keyword.other.squirrel"
         },
@@ -662,6 +683,10 @@
         {
           "match": "(\\+=|\\-=|\\*=|/=|%=)",
           "name": "keyword.operator.assignment.squirrel"
+        },
+        {
+          "match": "\\?| \\??",
+          "name": "keyword.operator.null-operator.squirrel"
         },
         {
           "begin": "\\?",
