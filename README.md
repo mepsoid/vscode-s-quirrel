@@ -33,13 +33,12 @@
 - [x] Capture inner blocks of interpolated strings
       ($"{_block_}")
 - [x] External syntax static analyzer
-- [ ] Whiteboard for code quick check
-- [ ] Remove trailing spaces on document save
-- [ ] Autocompletion for workspace files path while typing
-- [ ] Color variance for identifiers based on their's name
+- [x] Whiteboard for code quick check
 - [ ] Local and cross module go to declaration
-- [ ] Highlight all function identifiers, including function arguments, array values and table fields definitions
-      (._func_(), function _func_(), _func_ = function()|@(), (_func_()), \[_func_()\], { _func_ = function()|@() })
+- [ ] Autocompletion for workspace files path while typing
+- [ ] Tooltips over code tokens
+- [ ] Remove trailing spaces on document save
+- [ ] Color variance for identifiers based on their's name
 - [ ] Set of common key-value pairs for table fields autocompletion (key = val1|val2 ...)
 - [ ] Highlighting of JSDOC tags in documentation comment blocks /** */
 - [ ] Traversing blocks, tables, strings interpolation, function arguments etc
