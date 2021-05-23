@@ -56,7 +56,7 @@ export class SubstitutePathByFile implements vs.CompletionItemProvider {
 
       function appendCompletion(label: string, documentation?: string, sortText?: string) {
         const item =  new vs.CompletionItem(truncatePath(label));
-        item.kind = fileKind
+        item.kind = fileKind;
         item.insertText = label;
         item.range = range;
         item.filterText = fileSrc;

@@ -1,5 +1,5 @@
 const PATH_MAX = 50;
-const MIN_FOUND_SYMBOLS = 2;
+const MAX_FRAGMENTS= 3;
 
 export type ExtractedPath = { begin: number, end: number; name: string };
 
@@ -29,6 +29,7 @@ export function compareFileName(part: string, fileName: string): number {
   if (fileName.indexOf(part) >= 0)
     return 2;
 
+  let fragments = 1;
   let count = 0;
   let lastFound = -1;
   for (let index = 0; index < part.length; ++index) {
@@ -36,10 +37,12 @@ export function compareFileName(part: string, fileName: string): number {
     if (found < 0)
       break;
 
+    if (found > lastFound + 1)
+      ++fragments;
     lastFound = found;
     ++count;
   }
-  return count >= MIN_FOUND_SYMBOLS ? part.length - count + 3 : 0;
+  return count < part.length || MAX_FRAGMENTS < fragments ? 0 : fragments + 2;
 }
 
 export function truncatePath(path:string): string {
