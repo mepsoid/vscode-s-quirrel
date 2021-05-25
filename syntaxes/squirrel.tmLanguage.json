@@ -146,14 +146,16 @@
         { "include": "#identifiers" }
       ]
     },
+
     "lambda-expression": {
-			"patterns": [
-				{
-					"match": "@()",
-					"name": "storage.type.function.lambda.squirrel"
-				}
-			]
-		},
+      "patterns": [
+        {
+          "match": "@()",
+          "name": "storage.type.function.lambda.squirrel"
+        }
+      ]
+    },
+
     "array": {
       "begin": "\\[",
       "beginCaptures": { "0": { "name": "punctuation.definition.array.begin.squirrel" } },
@@ -590,23 +592,11 @@
           "name": "keyword.operator.assignment.squirrel"
         },
         {
-          "match": "\\b(in|instanceof|typeof)\\b",
+          "match": "\\b(in|not\\s+in|instanceof|typeof)\\b",
           "name": "keyword.operator.logical.squirrel"
         },
         {
-          "begin": "\\(not",
-          "end": "\\in)",
-          "match": "not in",
-          "beginCaptures": {
-            "0": { "name": "keyword.operator.logical" }
-          },
-          "endCaptures": {
-            "0": { "name": "keyword.operator.logical" }
-          },
-          "name": "keyword.operator.logical.squirrel"
-        },
-        {
-          "mathc": "\\b(__LINE__|__FILE__)\\b",
+          "match": "\\b(__LINE__|__FILE__)\\b",
           "name": "keyword.other.squirrel"
         },
         { "include": "#modifiers" },
@@ -636,7 +626,7 @@
     },
 
     "method-call": {
-      "begin": "\\b([_a-z][\\w]*)\\s*(\\()",
+      "begin": "\\b([_A-Za-z][\\w]*)\\s*(\\()",
       "beginCaptures": {
         "1": { "name": "entity.name.function.squirrel" },
         "2": { "name": "meta.brace.round.squirrel" }
@@ -685,7 +675,7 @@
           "name": "keyword.operator.assignment.squirrel"
         },
         {
-          "match": "\\?| \\??",
+          "match": "\\?\\?",
           "name": "keyword.operator.null-operator.squirrel"
         },
         {
