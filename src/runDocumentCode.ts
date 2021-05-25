@@ -4,6 +4,8 @@ import syntaxDiags from './syntaxDiags';
 
 const DIAGNOSTIC_SOURCE = 'Code runner';
 
+const channel = vs.window.createOutputChannel("Squirrel");
+
 function checkCompileError(diagList: vs.Diagnostic[], message: string) {
   const pattern = /line = \((\d+)\).*column = \((\d+)\).*:\s*(.*)/gi;
   let result: RegExpExecArray | null;
@@ -42,7 +44,8 @@ export default function runDocumentCode() {
 
   const document = editor.document;
   const srcPath = document.uri.fsPath;
-  console.debug(`Running file: ${srcPath}`);
+  channel.show(true);
+  channel.appendLine(`Running file: ${srcPath}`);
 
   const config = vs.workspace.getConfiguration('squirrel.codeRunner');
   let fileName: string = config.get('fileName') || '';
@@ -52,7 +55,7 @@ export default function runDocumentCode() {
 
   exec(`${fileName} ${options}`, (error, stdout, stderr) => {
     if (error) {
-      console.error(stdout);
+      channel.appendLine(stdout);
 
       const diagList: vs.Diagnostic[] = [];
       checkCompileError(diagList, stdout);
@@ -63,6 +66,7 @@ export default function runDocumentCode() {
       return;
     }
 
-    console.log(stdout);
+    channel.appendLine(stdout);
+    channel.appendLine('');
   });
 }
