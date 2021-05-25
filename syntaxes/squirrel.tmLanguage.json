@@ -11,15 +11,13 @@
         { "include": "#class" },
         { "include": "#enum" },
         { "include": "#block" },
-        { "include": "#block-contents" },
-        { "include": "#lambda-expression" }
+        { "include": "#block-contents" }
       ]
     },
 
     "global": {
       "patterns": [
-        { "include": "#comments" },
-        { "include": "#lambda-expression" }
+        { "include": "#comments" }
       ]
     },
 
@@ -46,6 +44,7 @@
         { "include": "#for-loop" },
         { "include": "#keywords" },
         { "include": "#method-call" },
+        { "include": "#lambda-expression" },
         { "include": "#punctuation-braces" },
         { "include": "#operators" },
         { "include": "#operator-assignment" },
@@ -88,7 +87,7 @@
 
     "class-name-post": {
       "begin": "(?<=\\w)",
-      "end": "([\\{])",
+      "end": "(\\{)",
       "endCaptures": { "1": { "name": "punctuation.definition.block.begin.squirrel" } },
       "patterns": [
         { "include": "#modifiers-inheritance" },
@@ -266,23 +265,21 @@
           ]
         },
         {
-          "begin": "\\$\\\"",
-          "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.squirrel" } },
-          "end": "\\\"",
-          "endCaptures": { "0": { "name": "punctuation.definition.string.end.squirrel" } },
-          "name": "string.quoted.double.squirrel",
+          "begin": "(\\$\\\")",
+          "beginCaptures": {
+            "0": { "name": "string.quoted.double.squirrel" },
+            "1": { "name": "punctuation.definition.string.begin.squirrel" } },
+          "end": "(\\\")",
+          "endCaptures": {
+            "0": { "name": "string.quoted.double.squirrel" },
+            "1": { "name": "punctuation.definition.string.end.squirrel" }
+          },
           "patterns": [
+            { "include": "#block" },
             { "include": "#string-escape-sequences" },
             {
-              "begin": "(?<=\\{)",
-              "beginCaptures": { "1": { "name": "punctuation.definition.block.begin.squirrel" } },
-              "end": "(\\})",
-              "endCaptures": { "1": { "name": "punctuation.definition.block.end.squirrel" } },
-              "name": "meta.method.block.squirrel",
-              "patterns": [
-                { "include": "#block" },
-                { "include": "#block-contents" }
-              ]
+              "match" : "[^\\\"\\{\\}]*",
+              "name": "string.quoted.double.squirrel"
             }
           ]
         },
