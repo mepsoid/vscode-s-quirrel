@@ -31,12 +31,11 @@ export default function checkSyntaxOnSave(document: vs.TextDocument) {
   versionControl[srcPath] = version;
 
   const config = vs.workspace.getConfiguration('squirrel.syntaxChecker');
-  let fileName: string = config.get('fileName') || '';
-  fileName = process.env[fileName] || fileName;
-  let options: string = config.get('optionsCheckCode') || '';
-  options = options.replace(/\$\{source\}/gi, srcPath);
+  let toolPath: string = config.get('fileName') || '';
+  toolPath = process.env[toolPath] || toolPath;
+  let cmd: string = `${toolPath} --message-output-file: ${srcPath}`;
 
-  exec(`${fileName} ${options}`, (error, stdout, stderr) => {
+  exec(cmd, (error, stdout, stderr) => {
     if (stderr) {
       // TODO diagnose analyzer execution failure
       syntaxDiags.delete(document.uri);
