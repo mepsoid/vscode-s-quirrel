@@ -61,7 +61,18 @@
         "extensions": [
           "nut"
         ],
-        "configuration": "./language-configuration.json"
+        "configuration": "./syntaxes/squirrel.language-configuration.json"
+      },
+      {
+        "id": "consolelog",
+        "mimetypes": [
+          "log",
+          "text/log",
+          "text/x-log",
+          "text/x-code-output",
+          "x-code-output"
+        ],
+        "configuration": "./syntaxes/consolelog-configuration.json"
       }
     ],
     "grammars": [
@@ -69,6 +80,11 @@
         "language": "squirrel",
         "scopeName": "source.squirrel",
         "path": "./syntaxes/squirrel.tmLanguage.json"
+      },
+      {
+        "language": "consolelog",
+        "scopeName": "console.log",
+        "path": "./syntaxes/consolelog.tmLanguage.json"
       }
     ],
     "snippets": [

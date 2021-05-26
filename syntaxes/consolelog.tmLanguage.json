@@ -1,0 +1,61 @@
+{
+  "name": "Console-Log",
+  "scopeName": "console.log",
+  "patterns": [
+    {
+      "match": "\\\".*\\\"",
+      "name": "string.quoted"
+    },
+    {
+      "match": "'.*'",
+      "name": "string.quoted"
+    },
+    {
+      "match": "(?:^|\\s+)[\\w\\.\\-]+@(?:[\\w\\-]+\\.)+[\\w\\-]+",
+      "name": "markup.underline.link"
+    },
+    {
+      "match": "(?:^|\\s+)(?:\\w+\\:|\\.)?(\\\\|\\/)([\\w\\.\\-]+\\1)*[\\w\\.\\-]+",
+      "name": "markup.underline.link"
+    },  
+    {
+      "match": "\\b(true|True|TRUE)\\b",
+      "name": "constant.language.boolean.true"
+    },
+    {
+      "match": "\\b(false|False|FALSE)\\b",
+      "name": "constant.language.boolean.false"
+    },
+    {
+      "match": "\\b(null|Null|NULL)\\b",
+      "name": "constant.language.null"
+    },
+    {
+      "match": "\\b[-]?[0-9]+(\\.)[0-9]+(?:[eE][+-]?[0-9]+)?\\b",
+      "captures": {
+        "0": { "name": "constant.numeric.float" },
+        "1": { "name": "meta.delimiter.decimal.period" }
+      }
+    },
+    {
+      "match": "\\b0[0-7]+\\b",
+      "name": "constant.numeric.integer.octal"
+    },
+    {
+      "match": "\\b0[0-9]+\\b",
+      "name": "invalid.illegal.integer.octal"
+    },
+    {
+      "match": "\\b(0|[1-9][0-9]*)\\b",
+      "name": "constant.numeric.integer.decimal"
+    },
+    {
+      "match": "\\b0(x|X)[\\h]+\\b",
+      "name": "constant.numeric.integer.hexadecimal"
+    },
+    {
+      "match": "\\b0(x|X)[\\w]*\\b",
+      "name": "invalid.illegal.integer.hexadecimal"
+    }
+  ]
+}
