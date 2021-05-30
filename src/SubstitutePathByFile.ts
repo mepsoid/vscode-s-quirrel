@@ -46,7 +46,7 @@ export class SubstitutePathByFile implements vs.CompletionItemProvider {
       const result: vs.CompletionItem[] = [];
       const rangeLine = position.line;
       const range = new vs.Range(rangeLine, currentPath.begin, rangeLine, currentPath.end);
-      const fileSrc = currentPath.name;
+      const fileSrc = currentPath.value;
       const fileFull = normalizeBackslashes(path.normalize(fileSrc));
       const fileKind = fileFull.slice(-1) !== '/'
         ? vs.CompletionItemKind.File

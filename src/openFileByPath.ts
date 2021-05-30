@@ -24,7 +24,7 @@ export default function openFileByPath() {
   if (!currentPath)
     return;
 
-  const filePath = path.normalize(currentPath.name);
+  const filePath = path.normalize(currentPath.value);
   if (path.isAbsolute(filePath)) {
     // absolute path
     tryOpenDocument(filePath);

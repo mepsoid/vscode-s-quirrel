@@ -1,19 +1,38 @@
 const PATH_MAX = 50;
 const MAX_FRAGMENTS= 3;
 
-export type ExtractedPath = { begin: number, end: number; name: string };
-
-export function extractRequirePath(line: string, index: number): ExtractedPath | null {
+export function extractRequirePath(line: string, index: number):
+    { begin: number, end: number; value: string } | null
+{
   const pattern = /\brequire\s*\(\s*[$@]?\"([^\"]*)\"/g;
   let result: RegExpExecArray | null;
   while ((result = pattern.exec(line)) != null) {
-    const name = result[1];
-    const begin = line.indexOf(name, result.index);
-    const end = begin + name.length;
+    const value = result[1];
+    const begin = line.indexOf(value, result.index);
+    const end = begin + value.length;
     if (begin <= index && index <= end)
-      return { begin, end, name };
+      return { begin, end, value };
   }
   return null;
+}
+
+export function extractKeyBefore(line: string, index: number):
+    { begin: number, end: number; value: string; delimiter: string } | null
+{
+  const pattern = /(\w+)(\s*)=/g;
+  let result: RegExpExecArray | null;
+  let found = null;
+  while ((result = pattern.exec(line)) != null) {
+    const value = result[1];
+    const begin = line.indexOf(value, result.index);
+    if (begin > index)
+      break;
+
+    const end = begin + value.length;
+    const delimiter = result[2];
+    found = { begin, end, value, delimiter };
+  }
+  return found;
 }
 
 export function normalizeBackslashes(backslashed: string): string {
