@@ -1,5 +1,14 @@
 # Change Log
 
+
+## 0.0.7
+
+- Intellisense feature of tables' key-value combinations for ui parameters
+- Simplified extension setup
+- Fixed highlighting of interpolated strings
+- Fixed output of code runner feature
+- Added basic highlighting to code runner console log
+
 ## 0.0.6
 
 - Fixed discrete substring path substitution
