@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.0.6
+
+- Fixed discrete substring path substitution
+
 ## 0.0.5
 
 - Simplified external syntax analyzer setup
