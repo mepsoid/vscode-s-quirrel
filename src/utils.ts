@@ -1,3 +1,5 @@
+import * as vs from 'vscode';
+
 const PATH_MAX = 50;
 const MAX_FRAGMENTS= 3;
 
@@ -72,3 +74,5 @@ export function truncatePath(path:string): string {
   const last = path.lastIndexOf('/', length - 1);
   return path.substr(0, PATH_MAX - length + last) + '…' + path.substr(last);
 }
+
+export const dbgOutputChannel = vs.window.createOutputChannel("Squirrel");

@@ -2,7 +2,7 @@
   "name": "vscode-s-quirrel",
   "displayName": "(S)quirrel",
   "description": "Squirrel and Quirrel language support",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "publisher": "mepsoid",
   "icon": "acorn.png",
   "license": "MIT",
@@ -37,10 +37,15 @@
     "configuration": {
       "title": "(S)quirrel",
       "properties": {
+        "squirrel.codeAnalysis.command": {
+          "type": "string",
+          "default": "csq-dev --static-analysis --message-output-file:$DIAG_JSON $SRC_FILE",
+          "markdownDescription": "Identifier of environment variable that contains a command line of code runner utility, or command line of a code runner utility. Parameters are: **DIAG_JSON** - name of a temporary file to write diagnostic results to, **SRC_FILE** - name of the file to process. If not empty, this overrides **squirrel.syntaxChecker.fileName**."
+        },
         "squirrel.syntaxChecker.fileName": {
           "type": "string",
           "default": "sq3_static_analyzer-dev",
-          "markdownDescription": "Identifier of environment variable that contains full path to syntax checking utility, or full path to syntax checking utility, or executable file name that must be discoverable through system **PATH** variable."
+          "markdownDescription": "Identifier of environment variable that contains full path to syntax checking utility, or full path to syntax checking utility, or executable file name that must be discoverable through system **PATH** variable. This is deprecated, use **Code Analysis** tool since it is more flexible."
         },
         "squirrel.codeRunner.fileName": {
           "type": "string",
