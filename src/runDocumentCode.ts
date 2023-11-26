@@ -1,10 +1,9 @@
 import * as vs from 'vscode';
 import { exec } from 'child_process';
 import syntaxDiags from './syntaxDiags';
+import { dbgOutputChannel } from './utils';
 
 const DIAGNOSTIC_SOURCE = 'Code runner';
-
-const channel = vs.window.createOutputChannel("Squirrel");
 
 function checkCompileError(diagList: vs.Diagnostic[], message: string) {
   const pattern = /line = \((\d+)\).*column = \((\d+)\).*:\s*(.*)/gi;
@@ -44,8 +43,8 @@ export default function runDocumentCode() {
 
   const document = editor.document;
   const srcPath = document.uri.fsPath;
-  channel.show(true);
-  channel.appendLine(`Running file: ${srcPath}`);
+  dbgOutputChannel.show(true);
+  dbgOutputChannel.appendLine(`Running file: ${srcPath}`);
 
   const config = vs.workspace.getConfiguration('squirrel.codeRunner');
   let toolPath: string = config.get('fileName') || '';
@@ -54,7 +53,7 @@ export default function runDocumentCode() {
 
   exec(cmd, (error, stdout, stderr) => {
     if (error) {
-      channel.appendLine(stdout);
+      dbgOutputChannel.appendLine(stdout);
 
       const diagList: vs.Diagnostic[] = [];
       checkCompileError(diagList, stdout);
@@ -65,7 +64,7 @@ export default function runDocumentCode() {
       return;
     }
 
-    channel.appendLine(stdout);
-    channel.appendLine('');
+    dbgOutputChannel.appendLine(stdout);
+    dbgOutputChannel.appendLine('');
   });
 }
